@@ -1,5 +1,5 @@
 package tasks;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 
 public class Epic extends Task {
@@ -24,10 +24,10 @@ public class Epic extends Task {
     @Override
     public String toString() {
         return "Epic{" +
-                    "id=" + getId() +
-                    ", name='" + getName() + '\'' +
-                    ", description='" + getDescription() + '\'' +
-                    ", status=" + getStatus() +
-                    '}';
+                "id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", description='" + getDescription() + '\'' +
+                ", status=" + getStatus() +
+                '}';
     }
 }

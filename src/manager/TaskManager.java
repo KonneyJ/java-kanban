@@ -1,19 +1,18 @@
 package manager;
 
+import tasks.Epic;
 import tasks.Status;
 import tasks.Subtask;
 import tasks.Task;
-import tasks.Epic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TaskManager {
-    private int nextId;
-
     private final HashMap<Integer, Task> tasks = new HashMap<>();
     private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
     private final HashMap<Integer, Epic> epics = new HashMap<>();
+    private int nextId;
 
     //Генератор id
     private int getNextId() {
