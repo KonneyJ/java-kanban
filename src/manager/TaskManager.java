@@ -14,11 +14,6 @@ public class TaskManager {
     private final HashMap<Integer, Epic> epics = new HashMap<>();
     private int nextId;
 
-    //Генератор id
-    private int getNextId() {
-        return nextId++;
-    }
-
     //Создание задачи, подзадачи и эпика
     public Task createTask(Task task) {
         task.setId(getNextId());
@@ -156,6 +151,7 @@ public class TaskManager {
         if (epicId == null || !epics.containsKey(epicId)) {
             return null;
         }
+        epic.setSubtasksIds(epics.get(epic.getId()).getSubtasksIds());
         epic.setStatus(checkEpicStatus(epic));
         epics.put(epicId, epic);
         return epic;
@@ -220,5 +216,10 @@ public class TaskManager {
         } else {
             return epics.get(epicId).getSubtasksIds();
         }
+    }
+
+    //Генератор id
+    private int getNextId() {
+        return nextId++;
     }
 }
