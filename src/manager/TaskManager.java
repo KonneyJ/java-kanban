@@ -38,7 +38,7 @@ public class TaskManager {
         //Добавление подзадачи в список подзадач
         subtasks.put(subtask.getId(), subtask);
         //Добавление подзадачи в эпик
-        epic.getSubtasksIds().put(subtask.getId(), subtask);
+        epic.getSubtasksIds().add(subtask);
         //Проверка статуса эпика
         epic.setStatus(checkEpicStatus(epic));
         return subtask;
@@ -52,7 +52,7 @@ public class TaskManager {
             return null;
         }
 
-        HashMap<Integer, Subtask> subtasksInEpic = epic.getSubtasksIds();
+        ArrayList<Subtask> subtasksInEpic = epic.getSubtasksIds();
 
         if (subtasksInEpic.size() == 0) {
             return Status.NEW;
@@ -60,7 +60,7 @@ public class TaskManager {
             int subtaskDone = 0;
             int subtaskNew = 0;
 
-            for (Subtask subtask : subtasksInEpic.values()) {
+            for (Subtask subtask : subtasksInEpic) {
                 if (subtask.getStatus() == Status.DONE) {
                     subtaskDone = subtaskDone + 1;
                 }
@@ -138,9 +138,9 @@ public class TaskManager {
         Epic epic = epics.get(epicId);
         //Переопределяем статус эпика
         epic.setStatus(checkEpicStatus(epic));
-        HashMap<Integer, Subtask> updateSubtasks = epic.getSubtasksIds();
+        ArrayList<Subtask> updateSubtasks = epic.getSubtasksIds();
         //Получаем мапу подзадач определенного эпика и сохраняем туда обновленную подзадачу
-        updateSubtasks.put(subtask.getId(), subtask);
+        updateSubtasks.add(subtask);
         //Добавляем подзадачу в мапу подзадач этого эпика
         epic.setSubtasksIds(updateSubtasks);
         return subtask;
@@ -210,7 +210,7 @@ public class TaskManager {
     }
 
     //Получение списка подзадач конкретного эпика
-    public HashMap<Integer, Subtask> getSubtasksByEpic(Integer epicId) {
+    public ArrayList<Subtask> getSubtasksByEpic(Integer epicId) {
         if (epics.get(epicId) == null) {
             return null;
         } else {

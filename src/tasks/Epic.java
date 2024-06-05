@@ -1,9 +1,9 @@
 package tasks;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Epic extends Task {
-    private HashMap<Integer, Subtask> subtasksIds = new HashMap<>();
+    private ArrayList<Subtask> subtasksIds = new ArrayList<>();
 
     public Epic(String name, String description) {
         super(name, description);
@@ -13,11 +13,11 @@ public class Epic extends Task {
         super(id, name, description);
     }
 
-    public HashMap<Integer, Subtask> getSubtasksIds() {
+    public ArrayList<Subtask> getSubtasksIds() {
         return subtasksIds;
     }
 
-    public void setSubtasksIds(HashMap<Integer, Subtask> subtasksIds) {
+    public void setSubtasksIds(ArrayList<Subtask> subtasksIds) {
         this.subtasksIds = subtasksIds;
     }
 
