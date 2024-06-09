@@ -1,3 +1,6 @@
+import manager.HistoryManager;
+import manager.InMemoryTaskManager;
+import manager.Managers;
 import manager.TaskManager;
 import tasks.Epic;
 import tasks.Status;
@@ -11,7 +14,8 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Поехали!");
 
-        TaskManager taskManager = new TaskManager();
+        TaskManager taskManager = Managers.getDefault();
+        HistoryManager historyManager = Managers.getDefaultHistory();
 
         System.out.println("Тест 1: пустой список");
         ArrayList<Task> tasks = taskManager.getTasks();
@@ -117,5 +121,32 @@ public class Main {
         System.out.println("Список эпиков должен содержать один эпик");
         taskManager.getAllEpics();
         System.out.println();
+
+        System.out.println("Тест 16: просмотр истории");
+        System.out.println();
+            System.out.println("Задачи:");
+            for (Task task : taskManager.getTasks()) {
+                taskManager.getTaskById(task.getId());
+                System.out.println(task);
+            }
+            System.out.println("Эпики:");
+            for (Task epic : taskManager.getEpics()) {
+                taskManager.getEpicById(epic.getId());
+                System.out.println(epic);
+
+                for (Task task : taskManager.getSubtasksByEpic(epic.getId())) {
+                    System.out.println("--> " + task);
+                }
+            }
+            System.out.println("Подзадачи:");
+            for (Task subtask : taskManager.getSubtasks()) {
+                taskManager.getSubtaskById(subtask.getId());
+                System.out.println(subtask);
+            }
+
+            System.out.println("История:");
+            for (Task task : historyManager.getHistory()) {
+                System.out.println(task);
+            }
     }
 }
