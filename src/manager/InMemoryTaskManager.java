@@ -7,6 +7,7 @@ import tasks.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private final HashMap<Integer, Task> tasks = new HashMap<>();
@@ -53,7 +54,7 @@ public class InMemoryTaskManager implements TaskManager {
             return null;
         }
 
-        ArrayList<Subtask> subtasksInEpic = epic.getSubtasksInEpic();
+        List<Subtask> subtasksInEpic = epic.getSubtasksInEpic();
 
         if (subtasksInEpic.isEmpty()) {
             return Status.NEW;
@@ -246,6 +247,11 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             return epics.get(epicId).getSubtasksInEpic();
         }
+    }
+
+    @Override
+    public List<Task> getHistory() {
+        return historyManager.getHistory();
     }
 
     //Генератор id

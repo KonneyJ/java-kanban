@@ -8,6 +8,7 @@ import tasks.Subtask;
 import tasks.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -288,7 +289,7 @@ class InMemoryTaskManagerTest {
         Subtask savedSubtask2 = taskManager.createSubtask(subtask2);
         assertNotNull(savedSubtask2);
 
-        ArrayList<Subtask> subtasksByEpic = new ArrayList<>();
+        List<Subtask> subtasksByEpic = new ArrayList<>();
         subtasksByEpic.add(subtask1);
         subtasksByEpic.add(subtask2);
         ArrayList<Subtask> savedSubtasksByEpic = taskManager.getSubtasksByEpic(savedEpic.getId());
@@ -328,7 +329,7 @@ class InMemoryTaskManagerTest {
         Task updatedTask = taskManager.updateTask(task2);
         historyManager.add(task2);
 
-        ArrayList<Task> tasks = historyManager.getHistory();
+        List<Task> tasks = historyManager.getHistory();
         assertEquals(task1.getId(), tasks.get(0).getId(), "Id не равны");
         assertEquals(task1.getName(), tasks.get(0).getName(), "Имена не равны");
         assertEquals(task1.getDescription(), tasks.get(0).getDescription(), "Описания не равны");

@@ -8,6 +8,7 @@ import tasks.Subtask;
 import tasks.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -18,7 +19,7 @@ public class Main {
         HistoryManager historyManager = Managers.getDefaultHistory();
 
         System.out.println("Тест 1: пустой список");
-        ArrayList<Task> tasks = taskManager.getTasks();
+        List<Task> tasks = taskManager.getTasks();
         System.out.println("Список задач должен быть пуст: " + tasks.isEmpty());
         System.out.println();
 
@@ -39,7 +40,7 @@ public class Main {
         System.out.println();
 
         System.out.println("Тест 4: пустой список эпиков");
-        ArrayList<Epic> epics = taskManager.getEpics();
+        List<Epic> epics = taskManager.getEpics();
         System.out.println("Список эпиков должен быть пуст: " + epics.isEmpty());
         System.out.println();
 
@@ -52,7 +53,7 @@ public class Main {
         System.out.println();
 
         System.out.println("Тест 6: пустой список подзадач");
-        ArrayList<Subtask> subtasks = taskManager.getSubtasks();
+        List<Subtask> subtasks = taskManager.getSubtasks();
         System.out.println("Список подзадач должен быть пуст: " + subtasks.isEmpty());
         System.out.println();
 
