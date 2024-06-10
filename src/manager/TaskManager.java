@@ -5,6 +5,7 @@ import tasks.Subtask;
 import tasks.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface TaskManager {
     //Создание задачи, подзадачи и эпика
@@ -15,11 +16,11 @@ public interface TaskManager {
     Subtask createSubtask(Subtask subtask);
 
     //Получение всех задач, подзадач и эпиков
-    ArrayList<Task> getTasks();
+    List<Task> getTasks();
 
-    ArrayList<Subtask> getSubtasks();
+    List<Subtask> getSubtasks();
 
-    ArrayList<Epic> getEpics();
+    List<Epic> getEpics();
 
     //Печать списка всех задач, подзадач и эпиков
     void getAllTasks();
@@ -56,5 +57,7 @@ public interface TaskManager {
 
     Subtask getSubtaskById(Integer subtaskId);
 
-    ArrayList<Subtask> getSubtasksByEpic(Integer epicId);
+    List<Subtask> getSubtasksByEpic(Integer epicId);
+
+    List<Task> getHistory();
 }
