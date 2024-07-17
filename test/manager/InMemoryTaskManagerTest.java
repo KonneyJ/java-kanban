@@ -10,7 +10,8 @@ import tasks.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class InMemoryTaskManagerTest {
     private static InMemoryTaskManager taskManager;
@@ -313,7 +314,7 @@ class InMemoryTaskManagerTest {
         Task task1 = new Task("Имя задачи", "Описание задачи", Status.IN_PROGRESS);
         Task savedTask = taskManager.createTask(task1);
         assertNotNull(savedTask);
-        Task task2 = new Task(0,"Имя задачи1", "Описание задачи1", Status.IN_PROGRESS);
+        Task task2 = new Task(0, "Имя задачи1", "Описание задачи1", Status.IN_PROGRESS);
         assertEquals(task2.getId(), savedTask.getId(), "Задачи не конфликтуют между собой");
     }
 
