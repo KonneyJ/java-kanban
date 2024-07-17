@@ -10,7 +10,8 @@ import tasks.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class InMemoryTaskManagerTest {
     private static InMemoryTaskManager taskManager;
@@ -313,7 +314,7 @@ class InMemoryTaskManagerTest {
         Task task1 = new Task("Имя задачи", "Описание задачи", Status.IN_PROGRESS);
         Task savedTask = taskManager.createTask(task1);
         assertNotNull(savedTask);
-        Task task2 = new Task(0,"Имя задачи1", "Описание задачи1", Status.IN_PROGRESS);
+        Task task2 = new Task(0, "Имя задачи1", "Описание задачи1", Status.IN_PROGRESS);
         assertEquals(task2.getId(), savedTask.getId(), "Задачи не конфликтуют между собой");
     }
 
@@ -339,5 +340,20 @@ class InMemoryTaskManagerTest {
         assertEquals(task2.getName(), tasks.get(1).getName(), "Имена не равны");
         assertEquals(task2.getDescription(), tasks.get(1).getDescription(), "Описания не равны");
         assertEquals(task2.getStatus(), tasks.get(1).getStatus(), "Статусы не равны");
+    }
+
+    @Test
+    void shouldNotContainOldSubtaskIdInEpic() {
+        Epic epic = new Epic("Имя эпика", "Описание эпика");
+        Epic savedEpic = taskManager.createEpic(epic);
+        assertNotNull(savedEpic);
+        Subtask subtask = new Subtask("Имя подзадачи", "Описание подзадачи", Status.NEW, epic.getId());
+        Subtask savedSubtask = taskManager.createSubtask(subtask);
+        assertNotNull(savedSubtask);
+
+        assertEquals(1, (taskManager.getSubtasks()).size(), "Списки подзадач не равны");
+
+        taskManager.deleteSubtask(subtask.getId());
+        assertEquals(0, (taskManager.getSubtasks()).size(), "Списки подзадач не равны");
     }
 }
