@@ -319,26 +319,17 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void shouldTaskBeEqualAfterAddToHistoryManager() {
-        Task task1 = new Task("Имя задачи", "Описание задачи", Status.IN_PROGRESS);
-        Task savedTask = taskManager.createTask(task1);
-        assertNotNull(savedTask);
-        InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
-        historyManager.add(task1);
+    void shouldNotContainOldSubtaskIdInEpic() {
+        Epic epic = new Epic("Имя эпика", "Описание эпика");
+        Epic savedEpic = taskManager.createEpic(epic);
+        assertNotNull(savedEpic);
+        Subtask subtask = new Subtask("Имя подзадачи", "Описание подзадачи", Status.NEW, epic.getId());
+        Subtask savedSubtask = taskManager.createSubtask(subtask);
+        assertNotNull(savedSubtask);
 
-        Task task2 = new Task(task1.getId(), "Новое имя", "", Status.DONE);
-        Task updatedTask = taskManager.updateTask(task2);
-        historyManager.add(task2);
+        assertEquals(1, (taskManager.getSubtasks()).size(), "Списки подзадач не равны");
 
-        List<Task> tasks = historyManager.getHistory();
-        assertEquals(task1.getId(), tasks.get(0).getId(), "Id не равны");
-        assertEquals(task1.getName(), tasks.get(0).getName(), "Имена не равны");
-        assertEquals(task1.getDescription(), tasks.get(0).getDescription(), "Описания не равны");
-        assertEquals(task1.getStatus(), tasks.get(0).getStatus(), "Статусы не равны");
-
-        assertEquals(task2.getId(), tasks.get(1).getId(), "Id не равны");
-        assertEquals(task2.getName(), tasks.get(1).getName(), "Имена не равны");
-        assertEquals(task2.getDescription(), tasks.get(1).getDescription(), "Описания не равны");
-        assertEquals(task2.getStatus(), tasks.get(1).getStatus(), "Статусы не равны");
+        taskManager.deleteSubtask(subtask.getId());
+        assertEquals(0, (taskManager.getSubtasks()).size(), "Списки подзадач не равны");
     }
 }
