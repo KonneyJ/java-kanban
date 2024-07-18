@@ -332,4 +332,55 @@ class InMemoryTaskManagerTest {
         taskManager.deleteSubtask(subtask.getId());
         assertEquals(0, (taskManager.getSubtasks()).size(), "Списки подзадач не равны");
     }
+
+    @Test
+    void shouldNotChangeDataTaskInManagerAfterChangeBySetters() {
+        Task task = new Task("Имя задачи", "Описание задачи", Status.NEW);
+        Task savedTask = taskManager.createTask(task);
+        assertNotNull(savedTask);
+
+        savedTask.setName("Новое имя");
+        savedTask.setDescription("Новое описание");
+        savedTask.setStatus(Status.IN_PROGRESS);
+        assertEquals(savedTask.getName(), taskManager.getTaskById(savedTask.getId()).getName(),
+                "Имена задачи не равны");
+        assertEquals(savedTask.getDescription(), taskManager.getTaskById(savedTask.getId()).getDescription(),
+                "Описания задачи не равны");
+        assertEquals(savedTask.getStatus(), taskManager.getTaskById(savedTask.getId()).getStatus(),
+                "Статусы задачи не равны");
+    }
+
+    @Test
+    void shouldNotChangeDataEpicInManagerAfterChangeBySetters() {
+        Epic epic = new Epic("Имя эпика", "Описание эпика");
+        Epic savedEpic = taskManager.createEpic(epic);
+        assertNotNull(savedEpic);
+
+        savedEpic.setName("Новое имя");
+        savedEpic.setDescription("Новое описание");
+        assertEquals(savedEpic.getName(), taskManager.getEpicById(savedEpic.getId()).getName(),
+                "Имена задачи не равны");
+        assertEquals(savedEpic.getDescription(), taskManager.getEpicById(savedEpic.getId()).getDescription(),
+                "Описания задачи не равны");
+    }
+
+    @Test
+    void shouldNotChangeDataSubtaskInManagerAfterChangeBySetters() {
+        Epic epic = new Epic("Имя эпика", "Описание эпика");
+        Epic savedEpic = taskManager.createEpic(epic);
+        assertNotNull(savedEpic);
+        Subtask subtask = new Subtask("Имя подзадачи", "Описание подзадачи", Status.NEW, epic.getId());
+        Subtask savedSubtask = taskManager.createSubtask(subtask);
+        assertNotNull(savedSubtask);
+
+        savedSubtask.setName("Новое имя");
+        savedSubtask.setDescription("Новое описание");
+        savedSubtask.setStatus(Status.IN_PROGRESS);
+        assertEquals(savedSubtask.getName(), taskManager.getSubtaskById(savedSubtask.getId()).getName(),
+                "Имена подзадачи не равны");
+        assertEquals(savedSubtask.getDescription(), taskManager.getSubtaskById(savedSubtask.getId()).getDescription(),
+                "Описания подзадачи не равны");
+        assertEquals(savedSubtask.getStatus(), taskManager.getSubtaskById(savedSubtask.getId()).getStatus(),
+                "Статусы подзадачи не равны");
+    }
 }
