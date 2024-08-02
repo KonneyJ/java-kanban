@@ -173,11 +173,13 @@ public class InMemoryTaskManager implements TaskManager {
     //Удаление задач, подзадач и эпиков по id
     @Override
     public boolean deleteTask(Integer taskId) {
+        historyManager.remove(taskId);
         return tasks.remove(taskId) != null;
     }
 
     @Override
     public boolean deleteSubtask(Integer subtaskId) {
+        historyManager.remove(subtaskId);
         return subtasks.remove(subtaskId) != null;
     }
 
@@ -186,8 +188,10 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epic = epics.get(epicId);
         for (Subtask subtaskToDelete : getSubtasksByEpic(epicId)) {
             subtasks.remove(subtaskToDelete.getId());
+            historyManager.remove(subtaskToDelete.getId());
         }
         (epics.get(epic.getId()).getSubtasksInEpic()).clear();
+        historyManager.remove(epicId);
         return epics.remove(epicId) != null;
     }
 
