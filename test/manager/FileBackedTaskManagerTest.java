@@ -17,13 +17,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class FileBackedTaskManagerTest {
-    private String PATH_TO_FILE = "C:\\Users\\user\\IdeaProjects\\java-kanban\\src";
+    private String pathToFile = "C:\\Users\\user\\IdeaProjects\\java-kanban\\src";
     private FileBackedTaskManager fileManager;
     private File file;
 
     @BeforeEach
     public void beforeEach() {
-        file = new File(PATH_TO_FILE, "file.csv");
+        file = new File(pathToFile, "file.csv");
         fileManager = new FileBackedTaskManager(file);
     }
 
@@ -36,7 +36,7 @@ public class FileBackedTaskManagerTest {
     void shouldSaveAndLoadAnEmptyFile() throws IOException {
         fileManager = new FileBackedTaskManager(file);
         fileManager.save();
-        assertEquals(file.getName(), new File(PATH_TO_FILE, "file.csv").getName(), "Имена файлов не одинаковы");
+        assertEquals(file.getName(), new File(pathToFile, "file.csv").getName(), "Имена файлов не одинаковы");
         fileManager.loadFromFile();
         List<Task> emptyList = new ArrayList<>();
         assertEquals(emptyList, fileManager.getTasks());
