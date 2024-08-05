@@ -33,7 +33,7 @@ public class FileBackedTaskManagerTest {
     }
 
     @Test
-    void shouldSaveAndLoadAnEmptyFile() throws IOException {
+    void shouldSaveAndLoadAnEmptyFile() {
         fileManager = new FileBackedTaskManager(file);
         fileManager.save();
         assertEquals(file.getName(), new File(pathToFile, "file.csv").getName(), "Имена файлов не одинаковы");
