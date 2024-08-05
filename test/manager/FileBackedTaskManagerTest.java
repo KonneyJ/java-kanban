@@ -17,9 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class FileBackedTaskManagerTest {
-    private final static String PATH_TO_FILE = "C:\\Users\\user\\IdeaProjects\\java-kanban\\src";
-    private static FileBackedTaskManager fileManager;
-    private static File file;
+    private String PATH_TO_FILE = "C:\\Users\\user\\IdeaProjects\\java-kanban\\src";
+    private FileBackedTaskManager fileManager;
+    private File file;
 
     @BeforeEach
     public void beforeEach() {
