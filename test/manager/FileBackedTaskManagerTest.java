@@ -32,7 +32,7 @@ public class FileBackedTaskManagerTest {
         file.delete();
     }
 
-    /*@Test
+    @Test
     void shouldSaveAndLoadAnEmptyFile() {
         fileManager = new FileBackedTaskManager(file);
         fileManager.save();
@@ -60,5 +60,5 @@ public class FileBackedTaskManagerTest {
         assertEquals(List.of(task), fileManager.getTasks());
         assertEquals(List.of(epic), fileManager.getEpics());
         assertEquals(List.of(subtask), fileManager.getSubtasks());
-    }*/
+    }
 }
