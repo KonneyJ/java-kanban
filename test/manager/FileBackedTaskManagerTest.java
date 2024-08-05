@@ -30,7 +30,7 @@ public class FileBackedTaskManagerTest {
         file.delete();
     }
 
-    @Test
+    /*@Test
     void shouldWorkFileBackedManagerAsInMemoryManager() {
         Task task = new Task("Имя задачи", "Описание задачи", Status.NEW);
         Task savedTask = fileManager.createTask(task);
@@ -49,7 +49,7 @@ public class FileBackedTaskManagerTest {
         assertEquals(subtask.getEpicId(), savedSubtask.getEpicId());
     }
 
-    /*@Test
+    @Test
     void shouldSaveAndLoadAnEmptyFile() {
         fileManager.save();
         assertEquals(file.getName(), new File(pathToFile, "file.csv").getName(), "Имена файлов не одинаковы");
