@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FileBackedTaskManagerTest {
-    private String pathToFile = "C:\\Users\\user\\IdeaProjects\\java-kanban\\src";
+    private String pathToFile = "src";
     private FileBackedTaskManager fileManager;
     private File file;
 
