@@ -9,12 +9,10 @@ import tasks.Subtask;
 import tasks.Task;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class FileBackedTaskManagerTest {
     private String pathToFile = "C:\\Users\\user\\IdeaProjects\\java-kanban\\src";
