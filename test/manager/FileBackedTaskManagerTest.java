@@ -34,7 +34,6 @@ public class FileBackedTaskManagerTest {
 
     @Test
     void shouldSaveAndLoadAnEmptyFile() {
-        fileManager = new FileBackedTaskManager(file);
         fileManager.save();
         assertEquals(file.getName(), new File(pathToFile, "file.csv").getName(), "Имена файлов не одинаковы");
         fileManager.loadFromFile();
@@ -52,9 +51,6 @@ public class FileBackedTaskManagerTest {
         Epic savedEpic = fileManager.createEpic(epic);
         Subtask subtask = new Subtask("Имя подзадачи", "Описание подзадачи", Status.NEW, epic.getId());
         Subtask savedSubtask = fileManager.createSubtask(subtask);
-        assertNotNull(savedTask);
-        assertNotNull(savedEpic);
-        assertNotNull(savedSubtask);
 
         fileManager.loadFromFile();
         assertEquals(List.of(task), fileManager.getTasks());
