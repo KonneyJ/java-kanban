@@ -14,7 +14,7 @@ import java.nio.file.Files;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    private final String PATH_TO_FILE = "C:\\Users\\user\\IdeaProjects\\java-kanban\\src";
+    private final static String PATH_TO_FILE = "C:\\Users\\user\\IdeaProjects\\java-kanban\\src";
     private File file = new File(PATH_TO_FILE, "file.csv");
 
     public FileBackedTaskManager(File file) {
