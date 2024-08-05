@@ -14,8 +14,8 @@ import java.nio.file.Files;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    private final static String PATH_TO_FILE = "C:\\Users\\user\\IdeaProjects\\java-kanban\\src";
-    private File file = new File(PATH_TO_FILE, "file.csv");
+    private String pathToFile = "C:\\Users\\user\\IdeaProjects\\java-kanban\\src";
+    private File file = new File(pathToFile, "file.csv");
 
     public FileBackedTaskManager(File file) {
         this.file = file;
@@ -60,7 +60,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             if (file.isFile()) {
                 file.delete();
             }
-            file = new File(PATH_TO_FILE, "file.csv");
+            file = new File(pathToFile, "file.csv");
             //header
             bw.write(CSVFormatter.getHeader());
             bw.newLine();
