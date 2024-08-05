@@ -13,7 +13,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final HashMap<Integer, Task> tasks = new HashMap<>();
     private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
     private final HashMap<Integer, Epic> epics = new HashMap<>();
-    private int nextId;
+    private int nextId = 0;
     private final HistoryManager historyManager = Managers.getDefaultHistory();
 
     //Создание задачи, подзадачи и эпика
@@ -261,5 +261,9 @@ public class InMemoryTaskManager implements TaskManager {
     //Генератор id
     private int getNextId() {
         return nextId++;
+    }
+
+    public void setNextId(int nextId) {
+        this.nextId = nextId;
     }
 }
