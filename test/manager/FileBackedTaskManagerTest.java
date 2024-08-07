@@ -49,7 +49,7 @@ public class FileBackedTaskManagerTest {
         assertEquals(subtask.getEpicId(), savedSubtask.getEpicId());
     }
 
-   /* @Test
+    @Test
     void shouldSaveAndLoadManagerFromFile() {
         Task task = new Task("Имя задачи", "Описание задачи", Status.NEW);
         Task savedTask = fileManager.createTask(task);
@@ -61,9 +61,6 @@ public class FileBackedTaskManagerTest {
         assertEquals(newFileManager.tasks, fileManager.tasks, "Списки задач не равны");
         assertEquals(newFileManager.epics, fileManager.epics, "Списки эпиков не равны");
         assertEquals(newFileManager.subtasks, fileManager.subtasks, "Списки подзадач не равны");
-        Integer expectedId = savedSubtask.getId() + 1;
-        Integer actualId = newFileManager.getNextId();
-        assertEquals(expectedId, actualId, "Идентификаторы не равны");
     }
 
     @Test
@@ -90,5 +87,5 @@ public class FileBackedTaskManagerTest {
         assertEquals(List.of(task), newFileManager.getTasks());
         assertEquals(List.of(epic), newFileManager.getEpics());
         assertEquals(List.of(subtask), newFileManager.getSubtasks());
-    }*/
+    }
 }

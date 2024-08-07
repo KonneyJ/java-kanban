@@ -14,7 +14,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected final Map<Integer, Task> tasks = new HashMap<>();
     protected final Map<Integer, Subtask> subtasks = new HashMap<>();
     protected final Map<Integer, Epic> epics = new HashMap<>();
-    protected static int nextId = 0;
+    private int nextId = 0;
     protected final HistoryManager historyManager = Managers.getDefaultHistory();
 
     //Создание задачи, подзадачи и эпика
@@ -170,7 +170,6 @@ public class InMemoryTaskManager implements TaskManager {
         epic.setSubtasksInEpic(epics.get(epic.getId()).getSubtasksInEpic());
         epic.setStatus(checkEpicStatus(epic));
         epics.put(epicId, epic);
-        //Epic updatedEpic = Epic(epic);
         return epic;
     }
 
@@ -263,11 +262,11 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     //Генератор id
-    protected int getNextId() {
+    public int getNextId() {
         return nextId++;
     }
 
-    /*public void setNextId(int nextId) {
+    public void setNextId(int nextId) {
         this.nextId = nextId;
-    }*/
+    }
 }

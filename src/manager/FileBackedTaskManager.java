@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
@@ -40,7 +41,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     fileBackedTaskManager.addEpic((Epic) returnTask);
                 }
             }
-            nextId = maxId + 1;
+            InMemoryTaskManager manager = new InMemoryTaskManager();
+            manager.setNextId(maxId + 1);
         } catch (IOException e) {
             throw ManagerSaveException.loadException(e);
         }
@@ -79,10 +81,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public void addSubtask(Subtask subtask) {
         subtasks.put(subtask.getId(), subtask);
+        Epic epic = epics.get(subtask.getEpicId());
+        List<Subtask> subtasksInCurrentEpic = epic.getSubtasksInEpic();
+        subtasksInCurrentEpic.add(subtask);
     }
 
     public void addEpic(Epic epic) {
         epics.put(epic.getId(), epic);
+        epic.setSubtasksInEpic(new ArrayList<>());
     }
 
     @Override
