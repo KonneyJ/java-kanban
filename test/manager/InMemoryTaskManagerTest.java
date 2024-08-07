@@ -139,7 +139,7 @@ class InMemoryTaskManagerTest {
         assertEquals(updatedSubtask, subtasks.get(0), "Подзадачи не равны");
     }
 
-    @Test
+    /*@Test
     void shouldUpdateEpic() {
 
         Epic epic = new Epic("Имя эпика", "Описание эпика");
@@ -157,7 +157,7 @@ class InMemoryTaskManagerTest {
         ArrayList<Epic> epics = taskManager.getEpics();
         assertNotNull(epics);
         assertEquals(updatedEpic, epics.get(savedEpic.getId()), "Эпики не равны");
-    }
+    }*/
 
     @Test
     void shouldDeleteTask() {

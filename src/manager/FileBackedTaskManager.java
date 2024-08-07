@@ -14,7 +14,7 @@ import java.nio.file.Files;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    private static String pathToFile = "./src/manager";
+    private static String pathToFile = "./src";
     private static File file = new File(pathToFile, "file.csv");
 
     public FileBackedTaskManager(File file) {
