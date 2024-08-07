@@ -8,14 +8,16 @@ public class CSVFormatter {
     }
 
     public static String toString(Task task) {
-        return new StringBuilder()
+        StringBuilder sb = new StringBuilder()
                 .append(task.getId()).append(",")
                 .append(task.getTaskType()).append(",")
                 .append(task.getName()).append(",")
                 .append(task.getStatus()).append(",")
-                .append(task.getDescription()).append(",")
-                .append(task.getEpicId())
-                .toString();
+                .append(task.getDescription());
+        if (task.getTaskType().equals(TaskType.SUBTASK)) {
+            sb.append(",").append(task.getEpicId());
+        }
+        return sb.toString();
     }
 
     public static Task fromString(String value) {
@@ -25,21 +27,17 @@ public class CSVFormatter {
         String name = parts[2];
         Status status = Status.valueOf(parts[3].toUpperCase());
         String description = parts[4];
-        Integer epicId = null;
-        if (type.equals(TaskType.SUBTASK)) {
-            epicId = Integer.parseInt(parts[5]);
-        }
 
         if (type.equals(TaskType.TASK)) {
-            Task task = new Task(id, name, description, status, type);
+            Task task = new Task(id, name, description, status);
             return task;
         } else if (type.equals(TaskType.SUBTASK)) {
-            Subtask subtask = new Subtask(name, description, status, type);
+            Subtask subtask = new Subtask(name, description, status);
             subtask.setId(id);
-            subtask.setEpicId(epicId);
+            subtask.setEpicId(Integer.parseInt(parts[5]));
             return subtask;
         } else {
-            Epic epic = new Epic(name, description, status, type);
+            Epic epic = new Epic(name, description, status);
             epic.setId(id);
             epic.setStatus(status);
             return epic;

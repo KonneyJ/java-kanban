@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FileBackedTaskManagerTest {
-    private String pathToFile = "C:\\Users\\user\\IdeaProjects\\java-kanban\\src";
+    private String pathToFile = "./src/manager";
     private FileBackedTaskManager fileManager;
     private File file;
 
@@ -30,7 +30,7 @@ public class FileBackedTaskManagerTest {
         file.delete();
     }
 
-    /*@Test
+    @Test
     void shouldWorkFileBackedManagerAsInMemoryManager() {
         Task task = new Task("Имя задачи", "Описание задачи", Status.NEW);
         Task savedTask = fileManager.createTask(task);
@@ -47,6 +47,23 @@ public class FileBackedTaskManagerTest {
         assertEquals(subtask.getName(), savedSubtask.getName());
         assertEquals(subtask.getDescription(), savedSubtask.getDescription());
         assertEquals(subtask.getEpicId(), savedSubtask.getEpicId());
+    }
+
+    @Test
+    void shouldSaveAndLoadManagerFromFile() {
+        Task task = new Task("Имя задачи", "Описание задачи", Status.NEW);
+        Task savedTask = fileManager.createTask(task);
+        Epic epic = new Epic("Имя эпика", "Описание эпика");
+        Epic savedEpic = fileManager.createEpic(epic);
+        Subtask subtask = new Subtask("Имя подзадачи", "Описание подзадачи", Status.NEW, epic.getId());
+        Subtask savedSubtask = fileManager.createSubtask(subtask);
+        FileBackedTaskManager newFileManager = FileBackedTaskManager.loadFromFile();
+        assertEquals(newFileManager.tasks, fileManager.tasks, "Списки задач не равны");
+        assertEquals(newFileManager.epics, fileManager.epics, "Списки эпиков не равны");
+        assertEquals(newFileManager.subtasks, fileManager.subtasks, "Списки подзадач не равны");
+        Integer expectedId = savedSubtask.getId() + 1;
+        Integer actualId = newFileManager.getNextId();
+        assertEquals(expectedId, actualId, "Идентификаторы не равны");
     }
 
     @Test
@@ -69,9 +86,9 @@ public class FileBackedTaskManagerTest {
         Subtask subtask = new Subtask("Имя подзадачи", "Описание подзадачи", Status.NEW, epic.getId());
         Subtask savedSubtask = fileManager.createSubtask(subtask);
 
-        fileManager.loadFromFile();
-        assertEquals(List.of(task), fileManager.getTasks());
-        assertEquals(List.of(epic), fileManager.getEpics());
-        assertEquals(List.of(subtask), fileManager.getSubtasks());
-    }*/
+        FileBackedTaskManager newFileManager = FileBackedTaskManager.loadFromFile();
+        assertEquals(List.of(task), newFileManager.getTasks());
+        assertEquals(List.of(epic), newFileManager.getEpics());
+        assertEquals(List.of(subtask), newFileManager.getSubtasks());
+    }
 }

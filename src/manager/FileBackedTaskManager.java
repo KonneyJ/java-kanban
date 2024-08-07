@@ -14,14 +14,14 @@ import java.nio.file.Files;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    private String pathToFile = "C:\\Users\\user\\IdeaProjects\\java-kanban\\src";
-    private File file = new File(pathToFile, "file.csv");
+    private static String pathToFile = "./src/manager";
+    private static File file = new File(pathToFile, "file.csv");
 
     public FileBackedTaskManager(File file) {
         this.file = file;
     }
 
-    public FileBackedTaskManager loadFromFile() {
+    public static FileBackedTaskManager loadFromFile() {
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file);
         try {
             List<String> lines = Files.readAllLines(file.toPath());
@@ -29,26 +29,18 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
             for (int i = 1; i < lines.size(); i++) {
                 Task returnTask = CSVFormatter.fromString(lines.get(i));
+                if (returnTask.getId() > maxId) {
+                    maxId = returnTask.getId();
+                }
                 if (returnTask.getTaskType().equals(TaskType.TASK)) {
-                    updateTask(returnTask);
-                    if (returnTask.getId() > maxId) {
-                        maxId = returnTask.getId();
-                        setNextId(maxId + 1);
-                    }
+                    fileBackedTaskManager.addTask(returnTask);
                 } else if (returnTask.getTaskType().equals(TaskType.SUBTASK)) {
-                    updateSubtask((Subtask) returnTask);
-                    if (returnTask.getId() > maxId) {
-                        maxId = returnTask.getId();
-                        setNextId(maxId + 1);
-                    }
+                    fileBackedTaskManager.addSubtask((Subtask) returnTask);
                 } else {
-                    updateEpic((Epic) returnTask);
-                    if (returnTask.getId() > maxId) {
-                        maxId = returnTask.getId();
-                        setNextId(maxId + 1);
-                    }
+                    fileBackedTaskManager.addEpic((Epic) returnTask);
                 }
             }
+            nextId = maxId + 1;
         } catch (IOException e) {
             throw ManagerSaveException.loadException(e);
         }
@@ -81,8 +73,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    public Task addTask(Task task) {
-        return super.createTask(task);
+    public void addTask(Task task) {
+        tasks.put(task.getId(), task);
+    }
+
+    public void addSubtask(Subtask subtask) {
+        subtasks.put(subtask.getId(), subtask);
+    }
+
+    public void addEpic(Epic epic) {
+        epics.put(epic.getId(), epic);
     }
 
     @Override

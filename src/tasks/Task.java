@@ -7,7 +7,6 @@ public class Task {
     protected String name;
     protected String description;
     protected Status status;
-    protected static TaskType taskType = TaskType.TASK;
 
     public Task(Integer id, String name, String description, Status status) {
         this.id = id;
@@ -33,12 +32,7 @@ public class Task {
         this.description = description;
     }
 
-    public Task(Integer id, String name, String description, Status status, final TaskType taskType) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.status = status;
-        this.taskType = taskType;
+    public Task(Task task) {
     }
 
     public Integer getId() {
@@ -74,7 +68,7 @@ public class Task {
     }
 
     public TaskType getTaskType() {
-        return taskType;
+        return TaskType.TASK;
     }
 
     public Integer getEpicId() {
