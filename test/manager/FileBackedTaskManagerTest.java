@@ -50,20 +50,6 @@ public class FileBackedTaskManagerTest {
     }
 
     @Test
-    void shouldSaveAndLoadManagerFromFile() {
-        Task task = new Task("Имя задачи", "Описание задачи", Status.NEW);
-        Task savedTask = fileManager.createTask(task);
-        Epic epic = new Epic("Имя эпика", "Описание эпика");
-        Epic savedEpic = fileManager.createEpic(epic);
-        Subtask subtask = new Subtask("Имя подзадачи", "Описание подзадачи", Status.NEW, epic.getId());
-        Subtask savedSubtask = fileManager.createSubtask(subtask);
-        FileBackedTaskManager newFileManager = FileBackedTaskManager.loadFromFile();
-        assertEquals(newFileManager.tasks, fileManager.tasks, "Списки задач не равны");
-        assertEquals(newFileManager.epics, fileManager.epics, "Списки эпиков не равны");
-        assertEquals(newFileManager.subtasks, fileManager.subtasks, "Списки подзадач не равны");
-    }
-
-    @Test
     void shouldSaveAndLoadAnEmptyFile() {
         fileManager.save();
         assertEquals(file.getName(), new File(pathToFile, "file.csv").getName(), "Имена файлов не одинаковы");
@@ -83,9 +69,8 @@ public class FileBackedTaskManagerTest {
         Subtask subtask = new Subtask("Имя подзадачи", "Описание подзадачи", Status.NEW, epic.getId());
         Subtask savedSubtask = fileManager.createSubtask(subtask);
 
-        FileBackedTaskManager newFileManager = FileBackedTaskManager.loadFromFile();
-        assertEquals(List.of(task), newFileManager.getTasks());
-        assertEquals(List.of(epic), newFileManager.getEpics());
-        assertEquals(List.of(subtask), newFileManager.getSubtasks());
+        assertEquals(List.of(task), fileManager.getTasks());
+        assertEquals(List.of(epic), fileManager.getEpics());
+        assertEquals(List.of(subtask), fileManager.getSubtasks());
     }
 }

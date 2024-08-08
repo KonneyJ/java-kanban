@@ -27,7 +27,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file);
         try {
             List<String> lines = Files.readAllLines(file.toPath());
-            int maxId = 0;
+            int maxId = -1;
 
             for (int i = 1; i < lines.size(); i++) {
                 Task returnTask = CSVFormatter.fromString(lines.get(i));
