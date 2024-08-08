@@ -11,6 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +57,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 file.delete();
             }
             file = new File(pathToFile, "file.csv");
+            if (!Files.exists(file.toPath())) {
+                Files.createFile(Paths.get(pathToFile, "file.csv"));
+            }
             //header
             bw.write(CSVFormatter.getHeader());
             bw.newLine();
