@@ -23,6 +23,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     void shouldCreateTask() {
+
         Task task = new Task("Имя задачи", "Описание задачи", Status.NEW);
         Task savedTask = taskManager.createTask(task);
         assertNotNull(savedTask);
@@ -38,6 +39,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     void shouldCreateEpic() {
+
         Epic epic = new Epic("Имя эпика", "Описание эпика");
         Epic savedEpic = taskManager.createEpic(epic);
         assertNotNull(savedEpic);
@@ -53,6 +55,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     void shouldCreateSubtask() {
+
         Epic epic = new Epic("Имя эпика", "Описание эпика");
         Epic savedEpic = taskManager.createEpic(epic);
         assertNotNull(savedEpic);
@@ -71,6 +74,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     void shouldCheckEpicStatus() {
+
         Epic epic = new Epic("Имя эпика", "Описание эпика");
         Epic savedEpic = taskManager.createEpic(epic);
         assertNotNull(savedEpic);
@@ -94,11 +98,12 @@ class InMemoryTaskManagerTest {
 
     @Test
     void shouldUpdateTask() {
+
         Task task = new Task("Имя задачи", "Описание задачи", Status.NEW);
         Task savedTask = taskManager.createTask(task);
         assertNotNull(savedTask);
 
-        Task task1 = new Task("Имя новое", "Описание новое", Status.DONE);
+        Task task1 = new Task(savedTask.getId(), "Имя новое", "Описание новое", Status.DONE);
         Task updatedTask = taskManager.updateTask(task1);
         assertNotNull(updatedTask);
 
@@ -113,6 +118,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     void shouldUpdateSubtask() {
+
         Epic epic = new Epic("Имя эпика", "Описание эпика");
         Epic savedEpic = taskManager.createEpic(epic);
         assertNotNull(savedEpic);
@@ -135,6 +141,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     void shouldUpdateEpic() {
+
         Epic epic = new Epic("Имя эпика", "Описание эпика");
         Epic savedEpic = taskManager.createEpic(epic);
         assertNotNull(savedEpic);
@@ -149,23 +156,25 @@ class InMemoryTaskManagerTest {
 
         ArrayList<Epic> epics = taskManager.getEpics();
         assertNotNull(epics);
-        assertEquals(updatedEpic, epics.get(0), "Эпики не равны");
+        assertEquals(updatedEpic, epics.get(savedEpic.getId()), "Эпики не равны");
     }
 
     @Test
     void shouldDeleteTask() {
+
         Task task = new Task("Имя задачи", "Описание задачи", Status.NEW);
         Task savedTask = taskManager.createTask(task);
         assertNotNull(savedTask);
 
         assertEquals(1, (taskManager.getTasks()).size(), "Списки задач не равны");
 
-        taskManager.deleteTask(0);
+        taskManager.deleteTask(savedTask.getId());
         assertEquals(0, (taskManager.getTasks()).size(), "Списки задач не равны");
     }
 
     @Test
     void shouldDeleteSubtask() {
+
         Epic epic = new Epic("Имя эпика", "Описание эпика");
         Epic savedEpic = taskManager.createEpic(epic);
         assertNotNull(savedEpic);
@@ -181,18 +190,20 @@ class InMemoryTaskManagerTest {
 
     @Test
     void shouldDeleteEpics() {
+
         Epic epic = new Epic("Имя эпика", "Описание эпика");
         Epic savedEpic = taskManager.createEpic(epic);
         assertNotNull(savedEpic);
 
         assertEquals(1, (taskManager.getEpics()).size(), "Списки эпиков не равны");
 
-        taskManager.deleteEpics(0);
+        taskManager.deleteEpics(savedEpic.getId());
         assertEquals(0, (taskManager.getEpics()).size(), "Списки эпиков не равны");
     }
 
     @Test
     void shouldDeleteAllTasks() {
+
         Task task1 = new Task("Имя задачи1", "Описание задачи1", Status.NEW);
         Task savedTask1 = taskManager.createTask(task1);
         assertNotNull(savedTask1);
@@ -209,6 +220,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     void shouldDeleteAllEpics() {
+
         Epic epic1 = new Epic("Имя эпика1", "Описание эпика1");
         Epic savedEpic1 = taskManager.createEpic(epic1);
         assertNotNull(savedEpic1);
@@ -225,6 +237,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     void shouldDeleteAllSubtasks() {
+
         Epic epic = new Epic("Имя эпика", "Описание эпика");
         Epic savedEpic = taskManager.createEpic(epic);
         assertNotNull(savedEpic);
@@ -244,28 +257,31 @@ class InMemoryTaskManagerTest {
 
     @Test
     void shouldGetTaskById() {
+
         Task task = new Task("Имя задачи", "Описание задачи", Status.NEW);
         Task savedTask = taskManager.createTask(task);
         assertNotNull(savedTask);
 
-        Task findedTask = taskManager.getTaskById(0);
+        Task findedTask = taskManager.getTaskById(savedTask.getId());
         assertNotNull(findedTask);
         assertEquals(findedTask, savedTask, "Задачи не равны");
     }
 
     @Test
     void shouldGetEpicById() {
+
         Epic epic = new Epic("Имя эпика", "Описание эпика");
         Epic savedEpic = taskManager.createEpic(epic);
         assertNotNull(savedEpic);
 
-        Epic findedEpic = taskManager.getEpicById(0);
+        Epic findedEpic = taskManager.getEpicById(savedEpic.getId());
         assertNotNull(findedEpic);
         assertEquals(findedEpic, savedEpic, "Эпики не равны");
     }
 
     @Test
     void shouldGetSubtaskById() {
+
         Epic epic = new Epic("Имя эпика", "Описание эпика");
         Epic savedEpic = taskManager.createEpic(epic);
         assertNotNull(savedEpic);
@@ -273,13 +289,13 @@ class InMemoryTaskManagerTest {
         Subtask savedSubtask = taskManager.createSubtask(subtask);
         assertNotNull(savedSubtask);
 
-        Subtask findedSubtask = taskManager.getSubtaskById(1);
-        assertNotNull(findedSubtask);
+        Subtask findedSubtask = taskManager.getSubtaskById(savedSubtask.getId());
         assertEquals(findedSubtask, savedSubtask, "Подзадачи не равны");
     }
 
     @Test
     void shouldGetSubtasksByEpic() {
+
         Epic epic = new Epic("Имя эпика", "Описание эпика");
         Epic savedEpic = taskManager.createEpic(epic);
         assertNotNull(savedEpic);
@@ -293,12 +309,13 @@ class InMemoryTaskManagerTest {
         List<Subtask> subtasksByEpic = new ArrayList<>();
         subtasksByEpic.add(subtask1);
         subtasksByEpic.add(subtask2);
-        ArrayList<Subtask> savedSubtasksByEpic = taskManager.getSubtasksByEpic(savedEpic.getId());
+        List<Subtask> savedSubtasksByEpic = taskManager.getSubtasksByEpic(savedEpic.getId());
         assertEquals(savedSubtasksByEpic, subtasksByEpic, "Списки подзадач определенного эпика не равны");
     }
 
     @Test
     void shouldTaskBeEqualAfterAddToManager() {
+
         Task task = new Task("Имя задачи", "Описание задачи", Status.IN_PROGRESS);
         Task savedTask = taskManager.createTask(task);
         assertNotNull(savedTask);
@@ -311,15 +328,17 @@ class InMemoryTaskManagerTest {
 
     @Test
     void shouldTaskBeEqualWithAddAndGeneratedId() {
+
         Task task1 = new Task("Имя задачи", "Описание задачи", Status.IN_PROGRESS);
         Task savedTask = taskManager.createTask(task1);
         assertNotNull(savedTask);
-        Task task2 = new Task(0, "Имя задачи1", "Описание задачи1", Status.IN_PROGRESS);
+        Task task2 = new Task(savedTask .getId(), "Имя задачи1", "Описание задачи1", Status.IN_PROGRESS);
         assertEquals(task2.getId(), savedTask.getId(), "Задачи не конфликтуют между собой");
     }
 
     @Test
     void shouldNotContainOldSubtaskIdInEpic() {
+
         Epic epic = new Epic("Имя эпика", "Описание эпика");
         Epic savedEpic = taskManager.createEpic(epic);
         assertNotNull(savedEpic);
@@ -335,6 +354,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     void shouldNotChangeDataTaskInManagerAfterChangeBySetters() {
+
         Task task = new Task("Имя задачи", "Описание задачи", Status.NEW);
         Task savedTask = taskManager.createTask(task);
         assertNotNull(savedTask);
@@ -352,6 +372,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     void shouldNotChangeDataEpicInManagerAfterChangeBySetters() {
+
         Epic epic = new Epic("Имя эпика", "Описание эпика");
         Epic savedEpic = taskManager.createEpic(epic);
         assertNotNull(savedEpic);
@@ -366,6 +387,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     void shouldNotChangeDataSubtaskInManagerAfterChangeBySetters() {
+
         Epic epic = new Epic("Имя эпика", "Описание эпика");
         Epic savedEpic = taskManager.createEpic(epic);
         assertNotNull(savedEpic);

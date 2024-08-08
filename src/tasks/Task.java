@@ -32,6 +32,9 @@ public class Task {
         this.description = description;
     }
 
+    public Task(Task task) {
+    }
+
     public Integer getId() {
         return id;
     }
@@ -62,6 +65,14 @@ public class Task {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public TaskType getTaskType() {
+        return TaskType.TASK;
+    }
+
+    public Integer getEpicId() {
+        return null;
     }
 
     @Override
