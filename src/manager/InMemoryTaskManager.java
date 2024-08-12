@@ -15,7 +15,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected final Map<Integer, Epic> epics = new HashMap<>();
     private int nextId = 0;
     protected final HistoryManager historyManager = Managers.getDefaultHistory();
-    TreeSet<Task> sortedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
+    private TreeSet<Task> sortedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
 
     //Создание задачи, подзадачи и эпика
     @Override
@@ -70,6 +70,9 @@ public class InMemoryTaskManager implements TaskManager {
             int subtaskNew = 0;
 
             for (Subtask subtask : subtasksInEpic) {
+                if (subtask.getStatus() == Status.IN_PROGRESS) {
+                    return Status.IN_PROGRESS;
+                }
                 if (subtask.getStatus() == Status.DONE) {
                     subtaskDone = subtaskDone + 1;
                 }
@@ -99,7 +102,9 @@ public class InMemoryTaskManager implements TaskManager {
                 !(subtaskList.getLast().getEndTime() == null)) {
             epic.setStartTime(subtaskList.getFirst().getStartTime());
             epic.setEndTime(subtaskList.getLast().getEndTime());
-            epic.setDuration(Duration.between(epic.getEndTime(), epic.getStartTime()));
+            for (Subtask s : subtaskList) {
+                epic.setDuration(epic.getDuration().plus(s.getDuration()));
+            }
         }
     }
 
@@ -197,9 +202,18 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public boolean deleteSubtask(Integer subtaskId) {
-        historyManager.remove(subtaskId);
-        sortedTasks.remove(subtasks.get(subtaskId));
-        return subtasks.remove(subtaskId) != null;
+        if (subtasks.get(subtaskId) != null) {
+            historyManager.remove(subtaskId);
+            sortedTasks.remove(subtasks.get(subtaskId));
+            Epic epic = epics.get(subtasks.get(subtaskId).getEpicId());
+            epic.getSubtasksInEpic().remove(subtasks.get(subtaskId));
+            epic.setStatus(checkEpicStatus(epic));
+            checkEpicStartAndEndTime(epic);
+            subtasks.remove(subtaskId);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -314,7 +328,6 @@ public class InMemoryTaskManager implements TaskManager {
         if (existTask != null) {
             sortedTasks.remove(existTask);
         }
-        System.out.println(sortedTasks);
         if (isIntersect(addedTask)) {
             throw new InvalidTaskException("Задача пересекается по времени с другой задачей");
         }
