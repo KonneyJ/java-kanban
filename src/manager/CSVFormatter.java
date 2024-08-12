@@ -2,6 +2,9 @@ package manager;
 
 import tasks.*;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class CSVFormatter {
 
     private CSVFormatter() {
@@ -13,7 +16,9 @@ public class CSVFormatter {
                 .append(task.getTaskType()).append(",")
                 .append(task.getName()).append(",")
                 .append(task.getStatus()).append(",")
-                .append(task.getDescription());
+                .append(task.getDescription()).append(",")
+                .append(task.getDuration()).append(",")
+                .append(task.getStartTime());
         if (task.getTaskType().equals(TaskType.SUBTASK)) {
             sb.append(",").append(task.getEpicId());
         }
@@ -27,24 +32,21 @@ public class CSVFormatter {
         String name = parts[2];
         Status status = Status.valueOf(parts[3].toUpperCase());
         String description = parts[4];
+        Duration duration = Duration.parse(parts[5]);
+        LocalDateTime startTime = LocalDateTime.parse(parts[6]);
 
         if (type.equals(TaskType.TASK)) {
-            Task task = new Task(id, name, description, status);
-            return task;
+            return new Task(id, name, description, status, duration, startTime);
         } else if (type.equals(TaskType.SUBTASK)) {
-            Subtask subtask = new Subtask(name, description, status);
-            subtask.setId(id);
-            subtask.setEpicId(Integer.parseInt(parts[5]));
+            Subtask subtask = new Subtask(id, name, description, status, duration, startTime);
+            subtask.setEpicId(Integer.parseInt(parts[7]));
             return subtask;
         } else {
-            Epic epic = new Epic(name, description, status);
-            epic.setId(id);
-            epic.setStatus(status);
-            return epic;
+            return new Epic(id, name, description, status, duration, startTime);
         }
     }
 
     public static String getHeader() {
-        return "id,type,name,status,description,epic";
+        return "id,type,name,status,description,duration,startTime,epic";
     }
 }

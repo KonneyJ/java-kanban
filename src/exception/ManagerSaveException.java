@@ -1,4 +1,4 @@
-package manager;
+package exception;
 
 public class ManagerSaveException extends RuntimeException {
     private static final String MESSAGE_SAVE = "Произошла ошибка при сохранении файла";

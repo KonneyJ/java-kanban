@@ -1,5 +1,6 @@
 package manager;
 
+import exception.ManagerSaveException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FileBackedTaskManagerTest {
     private String pathToFile = "./src";
@@ -72,5 +74,14 @@ public class FileBackedTaskManagerTest {
         assertEquals(List.of(task), fileManager.getTasks());
         assertEquals(List.of(epic), fileManager.getEpics());
         assertEquals(List.of(subtask), fileManager.getSubtasks());
+    }
+
+    @Test
+    void shouldCorrectlyFindException() {
+        assertThrows(ManagerSaveException.class, () -> {
+            FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(new File(pathToFile,
+                    "NoSuchFile.csv"));
+            fileBackedTaskManager.loadFromFile();
+        }, "Загрузка не существующего файла должна приводить к исключению");
     }
 }

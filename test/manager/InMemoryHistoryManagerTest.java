@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import tasks.Status;
 import tasks.Task;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,14 @@ class InMemoryHistoryManagerTest {
     @BeforeEach
     public void beforeEach() {
         historyManager = new InMemoryHistoryManager();
-        task = new Task("Имя", "Тест", Status.NEW);
+        task = new Task(0, "Имя", "Тест", Status.NEW, Duration.ofMinutes(15),
+                LocalDateTime.of(2024, 8, 10, 15, 30));
+    }
+
+    @Test
+    void shouldBeAnEmptyHistory() {
+        final List<Task> emptyHistory = historyManager.getHistory();
+        assertEquals(0, emptyHistory.size(), "История пустая");
     }
 
     @Test
@@ -46,6 +55,16 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
+    void shouldNotDoubleTaskInHistory() {
+        historyManager.add(task);
+        final List<Task> listFromNodeMap1 = historyManager.getTasks();
+        assertEquals(listFromNodeMap1.size(), List.of(task).size(), "Мапа для связного списка содержит 1 задачу");
+        historyManager.add(task);
+        final List<Task> listFromNodeMap2 = historyManager.getTasks();
+        assertEquals(listFromNodeMap2.size(), List.of(task).size(), "Мапа для связного списка содержит 1 задачу");
+    }
+
+    @Test
     void shouldRemoveNodeFromLinkedHashMap() {
         historyManager.add(task);
         final List<Task> listFromNodeMap1 = historyManager.getTasks();
@@ -55,6 +74,24 @@ class InMemoryHistoryManagerTest {
         final List<Task> listFromNodeMap2 = historyManager.getTasks();
         final List<Task> emptyList = new ArrayList<>();
         assertEquals(listFromNodeMap2.size(), emptyList.size(), "Мапа для связного списка пустая.");
+    }
 
+    @Test
+    void shouldRemoveNodeFromMiddleOfLinkedHashMap() {
+        Task task1 = new Task(1, "Имя1", "Тест1", Status.NEW, Duration.ofMinutes(15),
+                LocalDateTime.of(2024, 8, 10, 16, 30));
+        Task task2 = new Task(2, "Имя2", "Тест2", Status.NEW, Duration.ofMinutes(15),
+                LocalDateTime.of(2024, 8, 10, 17, 30));
+        historyManager.add(task);
+        historyManager.add(task1);
+        historyManager.add(task2);
+        final List<Task> listFromNodeMap1 = historyManager.getTasks();
+        assertEquals(listFromNodeMap1.size(), List.of(task, task1, task2).size(),
+                "Мапа для связного списка содержит правильное количество задач");
+
+        historyManager.remove(task1.getId());
+        final List<Task> listFromNodeMap2 = historyManager.getTasks();
+        assertEquals(listFromNodeMap2.size(), List.of(task, task2).size(),
+                "Мапа для связного списка содержит правильное количество задач");
     }
 }
