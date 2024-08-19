@@ -57,7 +57,7 @@ public class TaskHandler extends BaseHttpHandler {
                 sendText(exchange, response, 200);
             }
         } catch (NotFoundException exception) {
-            sendNotFound(exchange,"Задача не найдена");
+            sendNotFound(exchange, "Задача не найдена");
         } catch (Exception exception) {
             sendInternalServerError(exchange);
         }
@@ -96,7 +96,7 @@ public class TaskHandler extends BaseHttpHandler {
                 System.out.println("Получен некорректный id: " + id);
             }
         } catch (NotFoundException exception) {
-            sendNotFound(exchange,"Задача не найдена");
+            sendNotFound(exchange, "Задача не найдена");
         } catch (Exception exception) {
             sendInternalServerError(exchange);
         }
