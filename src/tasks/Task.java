@@ -57,6 +57,13 @@ public class Task {
     }
 
     public Task(Task task) {
+        this.id = task.getId();
+        this.name = task.getName();
+        this.description = task.getDescription();
+        this.status = task.getStatus();
+        this.duration = task.getDuration();
+        this.startTime = task.getStartTime();
+        this.endTime = task.getEndTime();
     }
 
     public Integer getId() {
