@@ -6,13 +6,12 @@ import exception.NotFoundException;
 import http.HttpTaskServer;
 import manager.TaskManager;
 import tasks.Subtask;
-import tasks.Task;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-public class SubtaskHandler extends BaseHttpHandler{
+public class SubtaskHandler extends BaseHttpHandler {
     public SubtaskHandler(TaskManager taskManager) {
         super(taskManager);
     }
@@ -57,7 +56,7 @@ public class SubtaskHandler extends BaseHttpHandler{
                 sendText(exchange, response, 200);
             }
         } catch (NotFoundException exception) {
-            sendNotFound(exchange,"Подзадача не найдена");
+            sendNotFound(exchange, "Подзадача не найдена");
         } catch (Exception exception) {
             sendInternalServerError(exchange);
         }
@@ -96,7 +95,7 @@ public class SubtaskHandler extends BaseHttpHandler{
                 System.out.println("Получен некорректный id: " + id);
             }
         } catch (NotFoundException exception) {
-            sendNotFound(exchange,"Подзадача не найдена");
+            sendNotFound(exchange, "Подзадача не найдена");
         } catch (Exception exception) {
             sendInternalServerError(exchange);
         }
