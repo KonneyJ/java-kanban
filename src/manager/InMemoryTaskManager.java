@@ -1,6 +1,7 @@
 package manager;
 
 import exception.InvalidTaskException;
+import exception.NotFoundException;
 import tasks.Epic;
 import tasks.Status;
 import tasks.Subtask;
@@ -254,10 +255,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     //Получение задачи, эпика и подзадачи по id
     @Override
-    public Task getTaskById(Integer taskId) {
+    public Task getTaskById(Integer taskId) throws NotFoundException {
         Task task = tasks.get(taskId);
         if (task == null) {
-            return null;
+            throw new NotFoundException("Задача не найдена");
         }
         historyManager.add(task);
         return task;
@@ -267,7 +268,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Epic getEpicById(Integer epicId) {
         Epic epic = epics.get(epicId);
         if (epic == null) {
-            return null;
+            throw new NotFoundException("Эпик не найден");
         }
         historyManager.add(epic);
         return epic;
@@ -277,7 +278,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Subtask getSubtaskById(Integer subtaskId) {
         Subtask subtask = subtasks.get(subtaskId);
         if (subtask == null) {
-            return null;
+            throw new NotFoundException("Подзадача не найдена");
         }
         historyManager.add(subtask);
         return subtask;
@@ -287,7 +288,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Subtask> getSubtasksByEpic(Integer epicId) {
         if (epics.get(epicId) == null) {
-            return null;
+            throw new NotFoundException("Эпик не найден");
         } else {
             return epics.get(epicId).getSubtasksInEpic();
         }

@@ -1,5 +1,6 @@
 package manager;
 
+import exception.NotFoundException;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
@@ -50,7 +51,7 @@ public interface TaskManager {
     void deleteAllSubtasks();
 
     //Получение задачи, эпика и подзадачи по id
-    Task getTaskById(Integer taskId);
+    Task getTaskById(Integer taskId) throws NotFoundException;
 
     Epic getEpicById(Integer epicId);
 
