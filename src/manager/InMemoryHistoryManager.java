@@ -31,7 +31,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         } else {
             removeNode(node);
         }
-
     }
 
     @Override
